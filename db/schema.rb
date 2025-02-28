@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2025_02_27_200604) do
 
-  create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+  create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2025_02_27_200604) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
   end
 
-  create_table "characters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+  create_table "characters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "actor_name"
     t.string "character_name"
     t.string "url_photo"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 2025_02_27_200604) do
     t.index ["serie_id"], name: "index_characters_on_serie_id"
   end
 
-  create_table "series", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+  create_table "series", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.integer "id_serie"
     t.string "name_pt"
     t.string "original_name"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2025_02_27_200604) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "username", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false

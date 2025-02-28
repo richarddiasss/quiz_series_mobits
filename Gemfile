@@ -38,6 +38,7 @@ gem 'pundit'
 gem 'jwt'
 
 #gem "ffi", "< 1.17.0"
+gem 'ffi', '~> 1.15.5'
  
 # Gemfile
 gem 'dotenv-rails', groups: [:development, :test]

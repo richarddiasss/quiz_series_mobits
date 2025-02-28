@@ -39,11 +39,11 @@ class SeriesController < InheritedResources::Base
     @Character = Character.find_by(id:id_character)
 
     if id_serie == @Character.serie_id
-      @user.update(questions: questions + 1, hits: hits + 1)
+      @user.update(questions: @user.questions + 1, hits: @user.hits + 1)
       return render json: {messagem: "Parabéns! Você acertou!"}
     end
     
-    @user.update(questions: questions + 1)
+    @user.update(questions: @user.questions + 1)
     @serie = Serie.find_by(id:@Character.serie_id)
     render json: {messagem: "Não foi dessa vez... a resposta correta era: #{@serie.original_name}"}
   end

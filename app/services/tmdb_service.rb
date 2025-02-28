@@ -15,7 +15,7 @@ class TmdbService
     series_importadas = 0
     page = 1
     
-    while series_importadas < 2
+    while series_importadas < 10
       response = self.class.get("/tv/popular", @options.merge(
         query: { language: 'en-US', page: page }
       ))
