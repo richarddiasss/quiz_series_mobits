@@ -4,7 +4,7 @@ ActiveAdmin.register Serie do
 
 
   action_item :importar_series, only: :index do
-    link_to 'Importar 10 Séries', importar_series_admin_series_index_path, method: :get
+    link_to 'Importar 100 Séries', importar_series_admin_series_index_path, method: :get
   end
 
   #action_item :importar_series, only: :show do

@@ -9,13 +9,14 @@ class TmdbService
         'Content-Type' => 'application/json;charset=utf-8'
       }
     }
+    
   end
 
   def importar_series
     series_importadas = 0
     page = 1
     
-    while series_importadas < 10
+    while series_importadas < 100
       response = self.class.get("/tv/popular", @options.merge(
         query: { language: 'en-US', page: page }
       ))

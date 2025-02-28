@@ -31,6 +31,12 @@ class ApplicationController < ActionController::Base
     render json: { message: "Você precisa estar logado" }, status: :unauthorized unless authorized_user
   end
 
+  def access_denied(exception)
+    # Redirecione para a página de login em vez de uma rota admin
+    sign_out current_user if current_user
+    redirect_to new_user_session_path, alert: exception.message
+  end
+
   protected
 
   def configure_permitted_parameters

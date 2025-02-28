@@ -16,6 +16,11 @@
     <%= f.label :password_confirmation, "Confirm new password" %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
+  
+  <div class="field">
+    <%= f.label :role, "User Role" %><br />
+    <%= f.select :role, User::ROLES, { include_blank: false }, { class: 'form-control' } %>
+  </div>
 
   <div class="actions">
     <%= f.submit "Change my password" %>

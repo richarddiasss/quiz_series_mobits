@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-  permit_params :email, :password, :password_confirmation, :username
+  permit_params :email, :password, :password_confirmation, :username, :role
   config.comments = false
 
   index do
@@ -22,6 +22,7 @@ ActiveAdmin.register User do
       f.input :email
       f.input :password
       f.input :password_confirmation
+      f.input :role, as: :select, collection: User::ROLES
     end
     f.actions
   end
