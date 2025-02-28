@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_serie: 1
+  name_pt: MyString
+  original_name: MyString
+  country: MyString
+  popularity: 1.5
+  average_voting: 1.5
+  synopsis: MyText
+  url_photo: MyString
+
+two:
+  id_serie: 1
+  name_pt: MyString
+  original_name: MyString
+  country: MyString
+  popularity: 1.5
+  average_voting: 1.5
+  synopsis: MyText
+  url_photo: MyString

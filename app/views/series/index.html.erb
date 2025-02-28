@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Series</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id serie</th>
+      <th>Name pt</th>
+      <th>Original name</th>
+      <th>Country</th>
+      <th>Popularity</th>
+      <th>Average voting</th>
+      <th>Synopsis</th>
+      <th>Url photo</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @series.each do |series| %>
+      <tr>
+        <td><%= series.id_serie %></td>
+        <td><%= series.name_pt %></td>
+        <td><%= series.original_name %></td>
+        <td><%= series.country %></td>
+        <td><%= series.popularity %></td>
+        <td><%= series.average_voting %></td>
+        <td><%= series.synopsis %></td>
+        <td><%= series.url_photo %></td>
+        <td><%= link_to 'Show', series %></td>
+        <td><%= link_to 'Edit', edit_series_path(series) %></td>
+        <td><%= link_to 'Destroy', series, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Series', new_series_path %>

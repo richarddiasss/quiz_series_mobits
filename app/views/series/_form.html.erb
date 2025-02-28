@@ -1,0 +1,57 @@
+<%= form_with(model: series, local: true) do |form| %>
+  <% if series.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(series.errors.count, "error") %> prohibited this series from being saved:</h2>
+
+      <ul>
+      <% series.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :id_serie %>
+    <%= form.number_field :id_serie %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name_pt %>
+    <%= form.text_field :name_pt %>
+  </div>
+
+  <div class="field">
+    <%= form.label :original_name %>
+    <%= form.text_field :original_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :country %>
+    <%= form.text_field :country %>
+  </div>
+
+  <div class="field">
+    <%= form.label :popularity %>
+    <%= form.text_field :popularity %>
+  </div>
+
+  <div class="field">
+    <%= form.label :average_voting %>
+    <%= form.text_field :average_voting %>
+  </div>
+
+  <div class="field">
+    <%= form.label :synopsis %>
+    <%= form.text_area :synopsis %>
+  </div>
+
+  <div class="field">
+    <%= form.label :url_photo %>
+    <%= form.text_field :url_photo %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
