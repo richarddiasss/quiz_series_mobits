@@ -1,5 +1,5 @@
 ActiveAdmin.register Serie do
-  actions :index, :show # permite apenas visualizar índice e detalhes
+  actions :index, :show, :destroy # permite apenas visualizar índice e detalhes
   permit_params :nome_br, :nome_original, :pais, :popularidade, :media_votacao, :sinopse, :url_foto
 
 

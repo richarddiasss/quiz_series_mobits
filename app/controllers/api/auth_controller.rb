@@ -19,7 +19,7 @@ class Api::AuthController < ApplicationController
     @user = User.find_by(username: params[:username])
     if @user&.valid_password?(params[:password])
       token = encode_token({ username: @user.username })
-      render json: { user: @user, token: token }, status: :ok
+      render json: {token: token }, status: :ok
     else
       render json: { message: "Username ou senha inválidos" }, status: :unauthorized
     end

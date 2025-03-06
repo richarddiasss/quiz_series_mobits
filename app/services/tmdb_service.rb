@@ -9,41 +9,46 @@ class TmdbService
         'Content-Type' => 'application/json;charset=utf-8'
       }
     }
-    
   end
 
   def importar_series
     series_importadas = 0
     page = 1
     
-    while series_importadas < 100
-      response = self.class.get("/tv/popular", @options.merge(
+    while series_importadas < 20
+      # Busca informações em inglês
+      response_en = self.class.get("/tv/popular", @options.merge(
         query: { language: 'en-US', page: page }
       ))
-  
-      response['results'].each do |serie_data|
+      
+      response_en['results'].each do |serie_data|
         next if Serie.exists?(id_serie: serie_data['id'])
         
-        detalhes = obter_detalhes_serie(serie_data['id'])
+        # Busca detalhes em inglês
+        detalhes_en = obter_detalhes_serie(serie_data['id'], 'en-US')
+        
+        # Busca o nome e informações em português brasileiro
+        detalhes_pt = obter_detalhes_serie(serie_data['id'], 'pt-BR')
         
         serie = Serie.create!(
           id_serie: serie_data['id'],
-          name_pt: serie_data['name'],
-          original_name: serie_data['original_name'],
-          country: detalhes['origin_country']&.first,
+          name_pt: detalhes_pt['name'],  # Nome em português brasileiro
+          original_name: serie_data['original_name'] || serie_data['name'],  # Nome original
+          country: detalhes_en['origin_country']&.first,
           popularity: serie_data['popularity'],
           average_voting: serie_data['vote_average'],
-          synopsis: serie_data['overview'],
+          synopsis: detalhes_pt['overview'] || serie_data['overview'],  # Sinopse em português (quando disponível)
           url_photo: serie_data['poster_path'] ? "https://image.tmdb.org/t/p/w500#{serie_data['poster_path']}" : nil
         )
         
         importar_elenco(serie)
         series_importadas += 1
         
-        break if series_importadas >= 2
+        break if series_importadas >= 20
       end
       
       page += 1
+      break if page > response_en['total_pages'] || response_en['results'].empty?
     end
     
     series_importadas
@@ -51,9 +56,9 @@ class TmdbService
 
   private
 
-  def obter_detalhes_serie(serie_id)
+  def obter_detalhes_serie(serie_id, idioma = 'en-US')
     self.class.get("/tv/#{serie_id}", @options.merge(
-      query: { language: 'en-US' }
+      query: { language: idioma }
     ))
   end
 
