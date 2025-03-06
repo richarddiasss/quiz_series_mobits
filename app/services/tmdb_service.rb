@@ -23,7 +23,7 @@ class TmdbService
       
       response_en['results'].each do |serie_data|
         next if Serie.exists?(id_serie: serie_data['id'])
-        
+
         # Busca detalhes em inglês
         detalhes_en = obter_detalhes_serie(serie_data['id'], 'en-US')
         
