@@ -21,14 +21,14 @@ class SeriesController < InheritedResources::Base
     choose_characters = @characters.sample
 
     render json: {
-  personagem: {
-    id: choose_characters.id,
-    nome: choose_characters.character_name
-  },
-  series: choose_series.map { |serie| 
-    { id: serie.id, nome: serie.name_pt, nome_original: serie.original_name }
-  }
-}
+      personagem: {
+        id: choose_characters.id,
+        nome: choose_characters.character_name
+      },
+      series: choose_series.map { |serie| 
+        { id: serie.id, nome: serie.name_pt, nome_original: serie.original_name }
+      }, status: :ok
+    }
 
   end
 
@@ -36,16 +36,17 @@ class SeriesController < InheritedResources::Base
 
     id_character, id_serie = params.dig(:personagem, :id), params.dig(:serie, :id)
 
-    @Character = Character.find_by(id:id_character)
-
-    if id_serie == @Character.serie_id
+    @character = Character.find_by(id:id_character)
+    return render json: {mensagem: "esse personagem não existe!"} if !@character
+    if id_serie.to_i == @character.serie_id
+      puts "entrou"
       @user.update(questions: @user.questions + 1, hits: @user.hits + 1)
-      return render json: {messagem: "Parabéns! Você acertou!"}
+      return render json: {mensagem: "Parabéns! Você acertou!"}
     end
     
     @user.update(questions: @user.questions + 1)
-    @serie = Serie.find_by(id:@Character.serie_id)
-    render json: {messagem: "Não foi dessa vez... a resposta correta era: #{@serie.original_name}"}
+    @serie = Serie.find_by(id:@character.serie_id)
+    render json: {mensagem: "Não foi dessa vez... a resposta correta era: #{@serie.original_name}"}
   end
 
   private
