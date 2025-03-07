@@ -1,10 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe 'Series Question', type: :request do
-  describe 'GET /answer_question' do
+  describe 'GET /create_question' do
     let(:user) { create(:user) }
     let(:token) { encode_token({ username: user.username }) }
     # Preparando o banco de dados com algumas séries e personagens
+
+    context 'Não apresentar o número mínimo de séries (4 séries)' do
+      before do
+        Serie.destroy_all  # Limpa todas as séries antes do teste
+        @series = create_list(:serie, Random.rand(3))
+        
+      end
+
+      it "retorna um json com a mensagem relatando a falta de series" do
+        get '/question', headers: { 'Authorization': "Bearer #{token}" }
+        
+        
+        json_response = JSON.parse(response.body)
+        expect(json_response['mensagem']).to eq("O banco de series precisa ter no mínimo 4 séries.")
+      end
+
+    end
+
     before do
       # Criar 5 séries
       @series = create_list(:serie, 4)

@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     
     if decoded_token
       username = decoded_token[0]["username"]
-      @user = User.find_by(username: username)
+      @user = User.where("BINARY username = ?", username).first
     end
   end
   

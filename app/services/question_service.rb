@@ -4,6 +4,8 @@ class QuestionService
     
     @series = Serie.all
 
+    return {mensagem: "O banco de series precisa ter no mínimo 4 séries."} if @series.count < 4
+
     choose_series = []
     while choose_series.count < 4
       choose_serie = @series.sample
@@ -23,8 +25,6 @@ class QuestionService
 
   def self.get_character(series)
     @characters = []
-    puts "bom dia"
-    puts series[0]
     while @characters.count == 0 do
       serie_person = series.sample
       @characters = Character.where(serie_id: serie_person.id)
