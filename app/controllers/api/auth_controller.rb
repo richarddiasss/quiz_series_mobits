@@ -17,7 +17,9 @@ class Api::AuthController < ApplicationController
   
   def login
     @user = User.where("BINARY username = ?", params[:username]).first #Utilizado em virtude de ser case-sensitive diferente do find_by
+    
     if @user&.valid_password?(params[:password])
+      return render json: {message: "Admin não pode jogar"} if @user.admin?
       token = encode_token({ username: @user.username })
       render json: {token: token}, status: :ok
     else
