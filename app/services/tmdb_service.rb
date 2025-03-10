@@ -23,9 +23,6 @@ class TmdbService
       
       response_en['results'].each do |serie_data|
         next if Serie.exists?(id_serie: serie_data['id'])
-
-        # Busca detalhes em inglês
-        detalhes_en = obter_detalhes_serie(serie_data['id'], 'en-US')
         
         # Busca o nome e informações em português brasileiro
         detalhes_pt = obter_detalhes_serie(serie_data['id'], 'pt-BR')
@@ -34,7 +31,7 @@ class TmdbService
           id_serie: serie_data['id'],
           name_pt: detalhes_pt['name'],  # Nome em português brasileiro
           original_name: serie_data['original_name'] || serie_data['name'],  # Nome original
-          country: detalhes_en['origin_country']&.first,
+          country: serie_data['origin_country']&.first,
           popularity: serie_data['popularity'],
           average_voting: serie_data['vote_average'],
           synopsis: detalhes_pt['overview'] || serie_data['overview'],  # Sinopse em português (quando disponível)
