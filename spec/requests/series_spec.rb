@@ -14,7 +14,7 @@ RSpec.describe 'Series Question', type: :request do
       end
 
       it "retorna um json com a mensagem relatando a falta de series" do
-        get '/question', headers: { 'Authorization': "Bearer #{token}" }
+        get '/api/v1/questao.json', headers: { 'Authorization': "Bearer #{token}" }
         
         
         json_response = JSON.parse(response.body)
@@ -32,7 +32,7 @@ RSpec.describe 'Series Question', type: :request do
     end
     
     it 'retorna um JSON com a estrutura esperada' do
-      get '/question', headers: { 'Authorization': "Bearer #{token}" }
+      get '/api/v1/questao.json', headers: { 'Authorization': "Bearer #{token}" }
       
       expect(response).to have_http_status(:ok)
       json_response = JSON.parse(response.body)
@@ -57,7 +57,7 @@ RSpec.describe 'Series Question', type: :request do
     end
     
     it 'retorna um personagem que existe no banco de dados' do
-      get '/question', headers: { 'Authorization': "Bearer #{token}" }
+      get '/api/v1/questao.json', headers: { 'Authorization': "Bearer #{token}" }
       
       json_response = JSON.parse(response.body)
       character_id = json_response['personagem']['id']
@@ -67,7 +67,7 @@ RSpec.describe 'Series Question', type: :request do
     end
     
     it 'retorna 4 séries diferentes' do
-      get '/question', headers: { 'Authorization': "Bearer #{token}" }
+      get '/api/v1/questao.json', headers: { 'Authorization': "Bearer #{token}" }
       
       json_response = JSON.parse(response.body)
       series_ids = json_response['series'].map { |s| s['id'] }
@@ -82,7 +82,7 @@ RSpec.describe 'Series Question', type: :request do
     end
     
     it 'retorna um personagem que pertence a uma das séries listadas' do
-      get '/question', headers: { 'Authorization': "Bearer #{token}" }
+      get '/api/v1/questao.json', headers: { 'Authorization': "Bearer #{token}" }
       
       json_response = JSON.parse(response.body)
       character_id = json_response['personagem']['id']
@@ -115,7 +115,7 @@ RSpec.describe 'Series Question', type: :request do
 
     context 'quando a resposta está correta' do
       it 'incrementa questions e hits do usuário' do
-        put "/answer", headers: { 'Authorization': "Bearer #{token}" }, params: {
+        put "/api/v1/resposta.json", headers: { 'Authorization': "Bearer #{token}" }, params: {
           personagem: { id: character.id },
           serie: { id: serie.id }
         }
@@ -129,7 +129,7 @@ RSpec.describe 'Series Question', type: :request do
 
     context 'quando a resposta está incorreta' do
       it 'incrementa apenas questions do usuário' do
-        put "/answer", headers: { 'Authorization': "Bearer #{token}" }, params: {
+        put "/api/v1/resposta.json", headers: { 'Authorization': "Bearer #{token}" }, params: {
           personagem: { id: character.id },
           serie: { id: different_serie.id }
         }
@@ -143,7 +143,7 @@ RSpec.describe 'Series Question', type: :request do
 
     context 'quando o personagem não é encontrado' do
       it 'lança um erro de registro não encontrado' do
-        put "/answer", headers: { 'Authorization': "Bearer #{token}" }, params: {
+        put "/api/v1/resposta.json", headers: { 'Authorization': "Bearer #{token}" }, params: {
             personagem: { id: 9999 },
             serie: { id: serie.id }
           }
