@@ -1,4 +1,4 @@
-class Api::AuthController < ApplicationController
+class Api::V1::AuthController < ApplicationController
   #include ActionController::MimeResponds
   before_action :authorize, only: [:info_user]
   
@@ -16,9 +16,9 @@ class Api::AuthController < ApplicationController
   end
   
   def login
-    @user = User.where("BINARY username = ?", params[:username]).first #Utilizado em virtude de ser case-sensitive diferente do find_by
+    @user = User.where("BINARY username = ?", params[:usuario]).first #Utilizado em virtude de ser case-sensitive diferente do find_by
     
-    if @user&.valid_password?(params[:password])
+    if @user&.valid_password?(params[:senha])
       return render json: {message: "Admin não pode jogar"} if @user.admin?
       token = encode_token({ username: @user.username })
       render json: {token: token}, status: :ok

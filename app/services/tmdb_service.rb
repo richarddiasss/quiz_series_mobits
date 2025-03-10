@@ -15,7 +15,7 @@ class TmdbService
     series_importadas = 0
     page = 1
     
-    while series_importadas < 10
+    while series_importadas < 100
       # Busca informações em inglês
       response_en = self.class.get("/tv/popular", @options.merge(
         query: { language: 'en-US', page: page }
@@ -44,7 +44,7 @@ class TmdbService
         importar_elenco(serie)
         series_importadas += 1
         
-        break if series_importadas >= 10
+        break if series_importadas >= 100
       end
       
       page += 1

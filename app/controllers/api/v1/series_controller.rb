@@ -1,4 +1,4 @@
-class SeriesController < InheritedResources::Base
+class Api::V1::SeriesController < InheritedResources::Base
   before_action :authorize
 
   def question    

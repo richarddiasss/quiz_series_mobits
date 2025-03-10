@@ -1,4 +1,4 @@
-class CharactersController < InheritedResources::Base
+class Api::V1::CharactersController < InheritedResources::Base
 
   private
 

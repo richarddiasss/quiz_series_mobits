@@ -10,7 +10,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, 
          :recoverable, :rememberable, :validatable
 
-  ROLES = %w[admin user].freeze
+  ROLES = %w[admin jogador].freeze
 
   def admin?
     role == 'admin'
