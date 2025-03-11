@@ -2,11 +2,24 @@ require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
   describe 'POST /login' do
-    let(:user) { create(:user, password: 'senha123') }
+
+    context "admin tentando logar" do
+      let(:user) { create(:user, password: 'senha123', role: "admin") }
+
+      before do
+        post '/api/v1/login.json', params: { usuario: user.username, senha: 'senha123' }
+      end
+
+      it 'retorna uma mensagem informando sobre a impossibilidade de jogar' do
+        expect(JSON.parse(response.body)['mensagem']).to eq("Admin não pode jogar")
+      end
+    end
+
+    let(:user) { create(:user, password: 'senha123', role: "jogador") }
     
     context 'com credenciais válidas' do
       before do
-        post '/api/login', params: { username: user.username, password: 'senha123' }
+        post '/api/v1/login.json', params: { usuario: user.username, senha: 'senha123' }
       end
       
       it 'retorna status 200' do
@@ -21,7 +34,7 @@ RSpec.describe "Users", type: :request do
     
     context 'com username inválido' do
       before do
-        post '/api/login', params: { username: 'usuario_inexistente', password: 'senha123' }
+        post '/api/v1/login.json', params: { username: 'usuario_inexistente', password: 'senha123' }
       end
       
       it 'retorna status 401' do
@@ -36,7 +49,7 @@ RSpec.describe "Users", type: :request do
     
     context 'com senha inválida' do
       before do
-        post '/api/login', params: { username: user.username, password: 'senha_errada' }
+        post '/api/v1/login.json', params: { username: user.username, password: 'senha_errada' }
       end
       
       it 'retorna status 401' do
@@ -62,7 +75,7 @@ RSpec.describe "Users", type: :request do
           user.update(questions: 20, hits: 15)
           
           # Fazendo a requisição com o token de autenticação
-          get '/api/me', headers: { 'Authorization': "Bearer #{token}" }
+          get '/api/v1/placar.json', headers: { 'Authorization': "Bearer #{token}" }
         end
         
         it 'retorna status 200' do
@@ -85,7 +98,7 @@ RSpec.describe "Users", type: :request do
           # Usuário sem perguntas (para testar divisão por zero)
           user.update(questions: 0, hits: 0)
           
-          get '/api/me', headers: { 'Authorization': "Bearer #{token}" }
+          get '/api/v1/placar.json', headers: { 'Authorization': "Bearer #{token}" }
         end
         
         it 'retorna status 200' do
@@ -97,7 +110,7 @@ RSpec.describe "Users", type: :request do
     
     context 'quando não autenticado' do
       before do
-        get '/api/me'
+        get '/api/v1/placar.json'
       end
       
       it 'retorna status não autorizado' do
@@ -107,7 +120,7 @@ RSpec.describe "Users", type: :request do
     
     context 'com token inválido' do
       before do
-        get '/api/me', headers: { 'Authorization': "Bearer token_invalido" }
+        get '/api/v1/placar.json', headers: { 'Authorization': "Bearer token_invalido" }
       end
       
       it 'retorna status não autorizado' do

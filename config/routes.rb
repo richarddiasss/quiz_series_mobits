@@ -5,13 +5,15 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   namespace :api do
-    # Supondo que você já tenha a rota para create
-    post '/login', to: 'auth#login'
-    get '/me', to: 'auth#info_user'
-    # Outras rotas protegidas aqui
+    namespace :v1 do
+      post '/login.json', to: 'auth#login'
+      get '/placar.json', to: 'auth#info_user'
+      get '/questao.json', to: 'series#question'
+      put '/resposta.json', to: 'series#answer_question'
+    end
   end
+  
 
-  get '/question', to: "series#question"
-  put '/answer', to: "series#answer_question"
+  
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

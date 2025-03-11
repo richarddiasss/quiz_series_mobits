@@ -3,14 +3,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   validates :username, 
             presence: { message: "não pode ficar em branco" },
-            uniqueness: { message: "já está sendo utilizado", case_sensitive: false }
+            uniqueness: { case_sensitive: true, message: "já está sendo utilizado" }
   
   validates :role, presence: { message: "O indivíduo precisa ter um papel dentro do sistema" }
   
   devise :database_authenticatable, 
          :recoverable, :rememberable, :validatable
 
-  ROLES = %w[admin user].freeze
+  ROLES = %w[admin jogador].freeze
 
   def admin?
     role == 'admin'
